@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Breaking</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000000;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 0;
+      padding-right: 0;
+      font-family: ui-monospace, "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", "Courier New", monospace;
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+
+    .push-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      align-items: center;
+      justify-content: center;
+      width: min(90vw, 680px);
+      transform: translateY(14vh);
+      text-align: center;
+    }
+
+    .line {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      white-space: normal;
+      overflow-wrap: break-word;
+      line-height: 1.35;
+      width: 100%;
+    }
+
+    .line.visible {
+      opacity: 1;
+    }
+
+    .line.spacer {
+      height: 0.7em;
+    }
+
+    .cursor-blink {
+      display: inline;
+      animation: blink 1s step-end infinite;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 400;
+    }
+
+    @keyframes blink {
+      0%, 49.9% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="push-block">
+    <div class="line" data-delay="0" style="color:#cc0000; font-size:13px; letter-spacing:3px;">BREAKING</div>
+    <div class="line spacer" data-delay="1000"></div>
+    <div class="line" data-delay="1800" style="color:#ffffff; font-size:22px; font-weight:400;">President Carter's son</div>
+    <div class="line" data-delay="2600" style="color:#ffffff; font-size:22px; font-weight:700;">Adrian Carter</div>
+    <div class="line spacer" data-delay="3400"></div>
+    <div class="line" data-delay="4200" style="color:#ffffff; font-size:16px;">and his lover</div>
+    <div class="line spacer" data-delay="5000"></div>
+    <div class="line" data-delay="5800" style="color:#ffffff; font-size:16px;">found dead in a private hotel suite</div>
+    <div class="line" data-delay="6600" style="color:#ffffff; font-size:16px;">early this morning</div>
+    <div class="line" data-delay="8400" style="color:#888888; font-size:13px;">Less than thirty-two hours</div>
+    <div class="line" data-delay="10000" style="color:#888888; font-size:13px;">since the Dalton killings</div>
+    <div class="line" data-delay="12600" style="color:#ffffff; font-size:13px;">A single note was found</div>
+    <div class="line" data-delay="13400" style="color:#ffffff; font-size:13px;">beside the bodies</div>
+    <div class="line" data-delay="15200" style="color:#ffffff; font-size:13px;">Contents partially leaked&#8202;-<span class="cursor-blink" style="display:none;">|</span></div>
+  </div>
+
+  <script>
+    (function () {
+      var lines = document.querySelectorAll('.line');
+      var started = false;
+
+      function runSequence() {
+        if (started) return;
+        started = true;
+        var maxDelay = 0;
+        for (var i = 0; i < lines.length; i++) {
+          (function (line) {
+            var delay = parseInt(line.getAttribute('data-delay'), 10);
+            if (isNaN(delay)) delay = 0;
+            if (delay > maxDelay) maxDelay = delay;
+            setTimeout(function () {
+              line.classList.add('visible');
+              var cursor = line.querySelector('.cursor-blink');
+              if (cursor) cursor.style.display = 'inline';
+            }, delay);
+          })(lines[i]);
+        }
+        setTimeout(function () {
+          try {
+            if (window.parent && window.parent !== window) {
+              window.parent.postMessage({ type: 'EP2_BREAKING_DONE' }, '*');
+            }
+          } catch (e) {}
+        }, maxDelay + 2000);
+      }
+
+      function arm() {
+        if (typeof IntersectionObserver !== 'undefined') {
+          var obs = new IntersectionObserver(
+            function (entries) {
+              for (var j = 0; j < entries.length; j++) {
+                if (entries[j].isIntersecting) {
+                  obs.disconnect();
+                  runSequence();
+                  return;
+                }
+              }
+            },
+            { root: null, threshold: 0.05 }
+          );
+          obs.observe(document.body);
+        } else {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', runSequence);
+          } else {
+            runSequence();
+          }
+        }
+        setTimeout(function () {
+          if (!started) runSequence();
+        }, 1200);
+      }
+      arm();
+    })();
+  </script>
+</body>
+</html>
