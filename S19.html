@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Alert</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0a0a;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+
+    .alert-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #cc0000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .alert-circle span {
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .alert-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      width: 100%;
+      transform: translateY(14vh);
+    }
+
+    .alert-container.fade-out {
+      opacity: 0;
+    }
+
+    .phone-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone {
+      position: relative;
+      width: 48px;
+      height: 80px;
+      border-radius: 12px;
+      border: 3px solid #cc0000;
+      box-sizing: border-box;
+      animation: phone-shake 0.4s ease-in-out infinite;
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 22px;
+      height: 3px;
+      border-radius: 999px;
+      background: #cc0000;
+    }
+
+    .phone::after {
+      content: "";
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #cc0000;
+    }
+
+    @keyframes phone-shake {
+      0%   { transform: translateX(0); }
+      20%  { transform: translateX(-6px); }
+      40%  { transform: translateX(6px); }
+      60%  { transform: translateX(-4px); }
+      80%  { transform: translateX(4px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes shake {
+      0%   { transform: translateX(0); }
+      15%  { transform: translateX(-8px); }
+      35%  { transform: translateX(8px); }
+      55%  { transform: translateX(-6px); }
+      75%  { transform: translateX(6px); }
+      100% { transform: translateX(0); }
+    }
+
+    .shake {
+      animation: shake 0.35s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="alert-container" id="alert">
+    <div class="alert-circle">
+      <span>!</span>
+    </div>
+    <div class="phone-wrapper" aria-hidden="true">
+      <div class="phone"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var alertEl = document.getElementById('alert');
+      var ran = false;
+
+      function runAlert() {
+        if (ran || !alertEl) return;
+        ran = true;
+
+        if (navigator.vibrate) {
+          navigator.vibrate([150, 80, 150]);
+        } else {
+          alertEl.classList.add('shake');
+        }
+
+        try {
+          var AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            var ctx = new AudioContext();
+            if (ctx.state === 'suspended') {
+              ctx.resume().catch(function () {});
+            }
+            var osc = ctx.createOscillator();
+            var gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, ctx.currentTime);
+            osc.frequency.linearRampToValueAtTime(1320, ctx.currentTime + 0.35);
+            gain.gain.setValueAtTime(0.0, ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.02);
+            gain.gain.linearRampToValueAtTime(0.0, ctx.currentTime + 0.4);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.4);
+          }
+        } catch (e) {}
+
+        setTimeout(function () {
+          alertEl.classList.add('fade-out');
+        }, 2000);
+      }
+
+      /* 父页预隐藏 iframe 时 iOS 会节流脚本/定时器；进入视口后再跑，保证红圈可见 */
+      if (typeof IntersectionObserver !== 'undefined') {
+        var obs = new IntersectionObserver(
+          function (entries) {
+            for (var i = 0; i < entries.length; i++) {
+              if (entries[i].isIntersecting) {
+                obs.disconnect();
+                runAlert();
+                return;
+              }
+            }
+          },
+          { root: null, threshold: 0.05 }
+        );
+        obs.observe(document.body);
+        setTimeout(function () {
+          if (!ran) runAlert();
+        }, 800);
+      } else {
+        runAlert();
+      }
+    })();
+  </script>
+</body>
+</html>
