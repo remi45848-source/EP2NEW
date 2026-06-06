@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Rainshot — Episode 2 · S3</title>
+  <title>Rainshot - Episode 2 · S1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <style>
     :root {
@@ -52,7 +52,6 @@
       touch-action: none;
     }
 
-    /* 短视频式竖滑：下一条从底部入，当前条向上离场 */
     .feed-item {
       position: absolute;
       inset: 0;
@@ -269,7 +268,6 @@
       color: rgba(255, 255, 255, 0.92);
     }
 
-    /* TikTok-style tap-to-play: small center control only, no caption */
     .tk-play-gate {
       position: absolute;
       inset: 0;
@@ -335,117 +333,39 @@
   </style>
 </head>
 <body>
-  <!-- 父页 iframe 建议：allow="autoplay *; fullscreen *" —— 否则浏览器常会禁止带声自动播放 -->
   <div class="tiktok-shell">
     <div class="feed" id="ep2-s3-feed">
-
       <section class="feed-item" data-ep2-step="0">
-        <div class="video-wrapper">
-          <div class="video-wrapper-inner">
-            <div class="video-inner">
-              <video class="story-feed-video" playsinline webkit-playsinline preload="auto"
-                src="https://pub-0f8fb9a88fd749b0987b026db4672ab5.r2.dev/dreamina_7616383904009751854_1774196756742_m.mp4"></video>
-              <div class="video-label">
-                <span class="video-label-dot"></span>
-                <span>BREAKING · NATIONAL</span>
-                <span style="opacity:.55;">PH</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="bottom-bar">
-          <div class="user-row">
-            <div class="user-main">
-              <div class="avatar news"></div>
-              <div>
-                <div class="user-handle">
-                  <span class="username">@GMANewsOfficial</span>
-                  <span class="verified">✔</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="caption-row">
-            <p class="caption-text line-clamp">
-              47 dead at Dalton compound. Police sealed the perimeter — state bulletin.
-            </p>
-          </div>
-        </div>
+        <div class="video-wrapper"><div class="video-wrapper-inner"><div class="video-inner">
+          <video class="story-feed-video" playsinline webkit-playsinline preload="metadata"
+            src="https://pub-0f8fb9a88fd749b0987b026db4672ab5.r2.dev/dreamina_7616383904009751854_1774196756742_m.mp4"></video>
+          <div class="video-label"><span class="video-label-dot"></span><span>BREAKING · NATIONAL</span><span style="opacity:.55;">PH</span></div>
+        </div></div></div>
+        <div class="bottom-bar"><div class="caption-row"><p class="caption-text line-clamp">47 dead at Dalton compound. Police sealed the perimeter — state bulletin.</p></div></div>
       </section>
 
       <section class="feed-item" data-ep2-step="1">
-        <div class="video-wrapper">
-          <div class="video-wrapper-inner">
-            <div class="video-inner">
-              <video class="story-feed-video" playsinline webkit-playsinline preload="auto"
-                src="https://pub-0f8fb9a88fd749b0987b026db4672ab5.r2.dev/dreamina_7616721351033802035_1774196806454_m.mp4"></video>
-              <div class="video-label">
-                <span class="video-label-dot"></span>
-                <span>HOT TAKE</span>
-                <span style="opacity:.55;">PH</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="bottom-bar">
-          <div class="user-row">
-            <div class="user-main">
-              <div class="avatar"></div>
-              <div>
-                <div class="user-handle">
-                  <span class="username">@PoliticalPulsePH</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="caption-row">
-            <p class="caption-text line-clamp">
-              Not a grudge. A clean sweep. Someone declared war on the Dalton name.
-            </p>
-          </div>
-        </div>
+        <div class="video-wrapper"><div class="video-wrapper-inner"><div class="video-inner">
+          <video class="story-feed-video" playsinline webkit-playsinline preload="none"
+            data-src="https://pub-0f8fb9a88fd749b0987b026db4672ab5.r2.dev/dreamina_7616721351033802035_1774196806454_m.mp4"></video>
+          <div class="video-label"><span class="video-label-dot"></span><span>HOT TAKE</span><span style="opacity:.55;">PH</span></div>
+        </div></div></div>
+        <div class="bottom-bar"><div class="caption-row"><p class="caption-text line-clamp">Not a grudge. A clean sweep. Someone declared war on the Dalton name.</p></div></div>
       </section>
 
       <section class="feed-item" data-ep2-step="2">
-        <div class="video-wrapper">
-          <div class="video-wrapper-inner">
-            <div class="video-inner">
-              <video class="story-feed-video" playsinline webkit-playsinline preload="auto"
-                src="https://pub-0f8fb9a88fd749b0987b026db4672ab5.r2.dev/dreamina_7616774402343996698_1774195143746_m.mp4"></video>
-              <div class="video-label">
-                <span class="video-label-dot"></span>
-                <span>ON THE GROUND</span>
-                <span style="opacity:.55;">PH</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="bottom-bar">
-          <div class="user-row">
-            <div class="user-main">
-              <div class="avatar"></div>
-              <div>
-                <div class="user-handle">
-                  <span class="username">@user_83920</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="caption-row">
-            <p class="caption-text line-clamp">
-              Tape three streets back. I've never seen anything like this.
-            </p>
-          </div>
-        </div>
+        <div class="video-wrapper"><div class="video-wrapper-inner"><div class="video-inner">
+          <video class="story-feed-video" playsinline webkit-playsinline preload="none"
+            data-src="https://pub-0f8fb9a88fd749b0987b026db4672ab5.r2.dev/dreamina_7616774402343996698_1774195143746_m.mp4"></video>
+          <div class="video-label"><span class="video-label-dot"></span><span>ON THE GROUND</span><span style="opacity:.55;">PH</span></div>
+        </div></div></div>
+        <div class="bottom-bar"><div class="caption-row"><p class="caption-text line-clamp">Tape three streets back. I've never seen anything like this.</p></div></div>
       </section>
-
     </div>
 
     <div class="tk-play-gate dim" id="tkPlayGate" role="button" tabindex="0" aria-label="Play">
       <div class="tk-play-btn" aria-hidden="true">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="8,5 8,19 19,12"></polygon>
-        </svg>
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="8,5 8,19 19,12"></polygon></svg>
       </div>
     </div>
   </div>
@@ -453,14 +373,11 @@
   <script>
     (function () {
       "use strict";
-
       var SLIDE_MS = 550;
       var SECONDARY_CLIP_MS = 4000;
       var FALLBACK_MAX_MS = 120000;
-
       var items = Array.prototype.slice.call(document.querySelectorAll(".feed-item"));
       if (!items.length) return;
-
       var videos = Array.prototype.slice.call(document.querySelectorAll(".story-feed-video"));
       var currentIndex = -1;
       var doneSent = false;
@@ -476,55 +393,42 @@
         doneSent = true;
         clearFallback();
         clearClipLimit();
-        try {
-          window.parent.postMessage({ type: "EP2_S3_FEED_DONE" }, "*");
-        } catch (e) {}
+        try { window.parent.postMessage({ type: "EP2_S3_FEED_DONE" }, "*"); } catch (e) {}
       }
-
-      function clearFallback() {
-        if (fallbackTimer) {
-          clearTimeout(fallbackTimer);
-          fallbackTimer = null;
-        }
-      }
-
-      function clearClipLimit() {
-        if (clipLimitTimer) {
-          clearTimeout(clipLimitTimer);
-          clipLimitTimer = null;
-        }
-      }
-
+      function clearFallback() { if (fallbackTimer) { clearTimeout(fallbackTimer); fallbackTimer = null; } }
+      function clearClipLimit() { if (clipLimitTimer) { clearTimeout(clipLimitTimer); clipLimitTimer = null; } }
       function pauseAllExcept(index) {
         videos.forEach(function (v, j) {
           if (j === index) return;
-          try {
-            v.pause();
-            v.currentTime = 0;
-          } catch (e) {}
+          try { v.pause(); v.muted = true; v.currentTime = 0; } catch (e) {}
         });
       }
-
-      function preloadVideo(video) {
+      function ensureVideoSrc(video) {
+        if (!video || video.src) return;
+        var src = video.getAttribute("data-src");
+        if (src) video.src = src;
+      }
+      function preloadVideo(video, level) {
         if (!video) return;
+        ensureVideoSrc(video);
         try {
-          video.preload = "auto";
+          video.preload = level || "auto";
           video.load();
         } catch (e) {}
       }
-
       function preloadAround(index) {
-        preloadVideo(videos[index]);
-        preloadVideo(videos[index + 1]);
-        preloadVideo(videos[index + 2]);
+        preloadVideo(videos[index], "auto");
+        if (videos[index + 1]) preloadVideo(videos[index + 1], "metadata");
       }
-
-      function detachEnded(video) {
-        if (!video || !endedHandler) return;
-        video.removeEventListener("ended", endedHandler);
-        endedHandler = null;
+      function stopAllPlayback() {
+        clearFallback();
+        clearClipLimit();
+        if (currentIndex >= 0 && videos[currentIndex]) detachEnded(videos[currentIndex]);
+        videos.forEach(function (v) {
+          try { v.pause(); v.muted = true; } catch (e) {}
+        });
       }
-
+      function detachEnded(video) { if (!video || !endedHandler) return; video.removeEventListener("ended", endedHandler); endedHandler = null; }
       function resetItemBelow(el) {
         el.classList.remove("active", "exit-up");
         el.style.transition = "none";
@@ -533,128 +437,34 @@
         el.style.transition = "";
         el.style.transform = "";
       }
-
-      function ensureSideActions() {
-        var counts = [
-          ["18.2K", "3.4K", "5.1K"],
-          ["9.6K", "1.8K", "942"],
-          ["6.1K", "1.1K", "628"]
-        ];
-        items.forEach(function (section, idx) {
-          var holder = section.querySelector(".video-inner");
-          if (!holder || holder.querySelector(".tiktok-side-actions")) return;
-          var c = counts[idx] || ["—", "—", "—"];
-          var wrap = document.createElement("div");
-          wrap.className = "tiktok-side-actions";
-          wrap.innerHTML =
-            '<div class="tiktok-action">' +
-              '<span class="tiktok-action-icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.6-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.4-7 10-7 10z"></path></svg></span>' +
-              '<span class="tiktok-action-count">' + c[0] + "</span>" +
-            "</div>" +
-            '<div class="tiktok-action">' +
-              '<span class="tiktok-action-icon"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path></svg></span>' +
-              '<span class="tiktok-action-count">' + c[1] + "</span>" +
-            "</div>" +
-            '<div class="tiktok-action">' +
-              '<span class="tiktok-action-icon"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4z"></path></svg></span>' +
-              '<span class="tiktok-action-count">' + c[2] + "</span>" +
-            "</div>";
-          holder.appendChild(wrap);
-        });
-      }
-
-      function injectCaptionUsernames() {
-        items.forEach(function (section) {
-          var caption = section.querySelector(".caption-text");
-          if (!caption) return;
-          if (caption.previousElementSibling && caption.previousElementSibling.classList.contains("caption-username")) return;
-          var usernameNode = section.querySelector(".username");
-          var usernameText = usernameNode ? usernameNode.textContent.trim() : "@user";
-          var userEl = document.createElement("span");
-          userEl.className = "caption-username";
-          userEl.textContent = usernameText;
-          caption.parentNode.insertBefore(userEl, caption);
-        });
-      }
-
-      var audioUnlocked = false;
-
       function tryPlayVideo(video) {
         if (!video) return;
+        ensureVideoSrc(video);
         video.loop = false;
-        try {
-          video.removeAttribute("loop");
-        } catch (e) {}
+        try { video.removeAttribute("loop"); } catch (e) {}
         video.volume = 1;
-        try {
-          video.defaultMuted = false;
-        } catch (e) {}
-
-        function playMuted() {
-          video.muted = true;
-          return video.play();
-        }
-
-        function playWithSound() {
-          video.muted = false;
-          return video.play();
-        }
-
-        if (audioUnlocked) {
-          var pu = playWithSound();
-          if (pu && typeof pu.catch === "function") {
-            pu.catch(function () {
-              playMuted().catch(function () {});
-            });
-          }
-          return;
-        }
-
-        var pSound = playWithSound();
-        if (pSound && typeof pSound.then === "function") {
-          pSound.then(function () {}).catch(function () {
-            playMuted().catch(function () {});
-          });
-        } else {
-          playMuted().catch(function () {});
-        }
+        video.muted = false;
+        video.play().catch(function () { video.muted = true; video.play().catch(function () {}); });
       }
-
-      function dismissPlayGate() {
-        if (!playGate) return;
-        playGate.classList.add("dismissed");
-      }
-
+      function dismissPlayGate() { if (!playGate) return; playGate.classList.add("dismissed"); }
       function startSequenceFromTap() {
         if (sequenceStarted || doneSent) return;
         sequenceStarted = true;
-        audioUnlocked = true;
         dismissPlayGate();
         preloadAround(0);
         var v0 = videos[0];
         currentIndex = 0;
         pauseAllExcept(0);
-        try {
-          v0.currentTime = 0;
-        } catch (e) {}
+        try { v0.currentTime = 0; } catch (e) {}
         tryPlayVideo(v0);
         bindEndedForCurrent(v0);
         startFallbackTimer();
       }
-
       function wirePlayGate() {
-        if (!playGate) {
-          startSequenceFromTap();
-          return;
-        }
-        function onKey(e) {
-          if (e.key === "Enter" || e.key === " ") {
-            activate(e);
-          }
-        }
+        if (!playGate) { startSequenceFromTap(); return; }
+        function onKey(e) { if (e.key === "Enter" || e.key === " ") activate(e); }
         function activate(e) {
-          e.preventDefault();
-          e.stopPropagation();
+          e.preventDefault(); e.stopPropagation();
           if (sequenceStarted) return;
           playGate.removeEventListener("click", activate);
           playGate.removeEventListener("keydown", onKey);
@@ -663,7 +473,6 @@
         playGate.addEventListener("click", activate);
         playGate.addEventListener("keydown", onKey);
       }
-
       function bindEndedForCurrent(video) {
         detachEnded(video);
         endedHandler = function () {
@@ -673,7 +482,6 @@
         };
         video.addEventListener("ended", endedHandler);
       }
-
       function startClipLimitTimer() {
         clearClipLimit();
         if (currentIndex <= 0) return;
@@ -683,7 +491,6 @@
           onCurrentVideoEnded();
         }, SECONDARY_CLIP_MS);
       }
-
       function startFallbackTimer() {
         clearFallback();
         fallbackTimer = setTimeout(function () {
@@ -692,170 +499,94 @@
           onCurrentVideoEnded();
         }, FALLBACK_MAX_MS);
       }
-
       function onCurrentVideoEnded() {
         if (transitioning || doneSent) return;
         clearClipLimit();
         var v = videos[currentIndex];
         if (v) detachEnded(v);
-
-        if (currentIndex >= items.length - 1) {
-          slideOutLastAndDone();
-          return;
-        }
+        if (currentIndex >= items.length - 1) { slideOutLastAndDone(); return; }
         transitionToNext(currentIndex + 1);
       }
-
       function transitionToNext(nextIdx) {
         if (transitioning || doneSent) return;
         transitioning = true;
-        clearFallback();
-        clearClipLimit();
-
+        clearFallback(); clearClipLimit();
         var currEl = items[currentIndex];
         var nextEl = items[nextIdx];
         var currVideo = videos[currentIndex];
         var nextVideo = videos[nextIdx];
-
         preloadAround(nextIdx);
-
-        if (currVideo) {
-          try {
-            currVideo.pause();
-          } catch (e) {}
-        }
-
-        nextEl.style.zIndex = "6";
-        currEl.style.zIndex = "5";
-
+        if (currVideo) { try { currVideo.pause(); } catch (e) {} }
+        nextEl.style.zIndex = "6"; currEl.style.zIndex = "5";
         var onEnd = function (e) {
           if (e.propertyName !== "transform") return;
           currEl.removeEventListener("transitionend", onEnd);
-
-          resetItemBelow(currEl);
-          currEl.style.zIndex = "";
-
-          nextEl.style.zIndex = "";
-
-          currentIndex = nextIdx;
-          transitioning = false;
-
+          resetItemBelow(currEl); currEl.style.zIndex = ""; nextEl.style.zIndex = "";
+          currentIndex = nextIdx; transitioning = false;
           pauseAllExcept(currentIndex);
-          try {
-            nextVideo.currentTime = 0;
-          } catch (e2) {}
+          try { nextVideo.currentTime = 0; } catch (e2) {}
           tryPlayVideo(nextVideo);
           bindEndedForCurrent(nextVideo);
           startFallbackTimer();
           startClipLimitTimer();
           preloadAround(currentIndex + 1);
         };
-
         currEl.addEventListener("transitionend", onEnd);
-
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            currEl.classList.add("exit-up");
-            nextEl.classList.add("active");
-          });
-        });
+        requestAnimationFrame(function () { requestAnimationFrame(function () { currEl.classList.add("exit-up"); nextEl.classList.add("active"); }); });
       }
-
       function slideOutLastAndDone() {
         if (transitioning || doneSent) return;
         transitioning = true;
-        clearFallback();
-        clearClipLimit();
-
+        clearFallback(); clearClipLimit();
         var currEl = items[currentIndex];
         var currVideo = videos[currentIndex];
-        if (currVideo) {
-          try {
-            currVideo.pause();
-          } catch (e) {}
-        }
-
+        if (currVideo) { try { currVideo.pause(); } catch (e) {} }
         currEl.style.zIndex = "6";
-
         var fin = function (e) {
           if (e.propertyName !== "transform") return;
           currEl.removeEventListener("transitionend", fin);
-          resetItemBelow(currEl);
-          currEl.style.zIndex = "";
+          resetItemBelow(currEl); currEl.style.zIndex = "";
           transitioning = false;
           sendDone();
         };
-
         currEl.addEventListener("transitionend", fin);
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            currEl.classList.add("exit-up");
-          });
-        });
-
-        setTimeout(function () {
-          if (!doneSent) sendDone();
-        }, SLIDE_MS + 500);
+        requestAnimationFrame(function () { requestAnimationFrame(function () { currEl.classList.add("exit-up"); }); });
+        setTimeout(function () { if (!doneSent) sendDone(); }, SLIDE_MS + 500);
       }
-
       function showFirstFrameWaitingForTap() {
-        items.forEach(function (el, j) {
-          el.classList.toggle("active", j === 0);
-        });
+        items.forEach(function (el, j) { el.classList.toggle("active", j === 0); });
         currentIndex = 0;
-        videos.forEach(function (v) {
+        try {
+          videos[0].preload = "metadata";
+          videos[0].load();
+        } catch (e) {}
+        videos.forEach(function (v, j) {
           try {
             v.pause();
             v.muted = true;
-            v.currentTime = 0;
+            if (j === 0) v.currentTime = 0;
           } catch (e) {}
         });
       }
-
-      ensureSideActions();
-      injectCaptionUsernames();
-
       videos.forEach(function (v) {
         v.loop = false;
-        try {
-          v.removeAttribute("loop");
-        } catch (e) {}
-        preloadVideo(v);
+        try { v.removeAttribute("loop"); } catch (e) {}
       });
-
       showFirstFrameWaitingForTap();
       wirePlayGate();
-
-      /* Parent embed (Episode 2 S3): skip tap gate, auto-run sequence */
       if (/[?&]autoplay=1(?:&|$)/.test(location.search) || /[?&]ep2embed=1(?:&|$)/.test(location.search)) {
-        setTimeout(function () {
-          if (!sequenceStarted) startSequenceFromTap();
-        }, 350);
+        setTimeout(function () { if (!sequenceStarted) startSequenceFromTap(); }, 350);
       }
-
+      window.addEventListener("message", function (e) {
+        if (!e.data || e.data.type !== "EP2_PAUSE") return;
+        stopAllPlayback();
+      });
       document.addEventListener("visibilitychange", function () {
         if (document.hidden) {
-          clearFallback();
-          clearClipLimit();
-          videos.forEach(function (v) {
-            try {
-              v.pause();
-            } catch (e) {}
-          });
-        } else if (
-          sequenceStarted &&
-          currentIndex >= 0 &&
-          currentIndex < items.length &&
-          !doneSent &&
-          !transitioning
-        ) {
+          stopAllPlayback();
+        } else if (sequenceStarted && currentIndex >= 0 && currentIndex < items.length && !doneSent && !transitioning) {
           var v = videos[currentIndex];
-          if (v) {
-            tryPlayVideo(v);
-            bindEndedForCurrent(v);
-            startFallbackTimer();
-            startClipLimitTimer();
-          }
+          if (v) { tryPlayVideo(v); bindEndedForCurrent(v); startFallbackTimer(); startClipLimitTimer(); }
         }
       });
     })();
