@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>The Dalton Killings — Comments</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: #0f0f0f;
+      font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      color: #f1f1f1;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      height: 100dvh;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: env(safe-area-inset-top) 0 0;
+    }
+
+    /* ---------- now-playing strip ---------- */
+    .now-playing {
+      flex-shrink: 0;
+      display: flex;
+      gap: 10px;
+      padding: 10px 14px 12px;
+      border-bottom: 1px solid #272727;
+      align-items: flex-start;
+    }
+    .np-thumb {
+      width: 64px;
+      height: 40px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      background:
+        radial-gradient(circle at 30% 30%, #3a2730, #14110f 70%);
+      position: relative;
+      overflow: hidden;
+    }
+    .np-thumb::after {
+      content: "LIVE";
+      position: absolute;
+      left: 4px;
+      bottom: 4px;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #fff;
+      background: #cc0000;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+    .np-meta { min-width: 0; flex: 1; }
+    .np-title {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.3;
+      color: #f1f1f1;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .np-sub {
+      margin-top: 3px;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    /* ---------- comments header ---------- */
+    .comments-head {
+      flex-shrink: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 12px 14px 6px;
+    }
+    .comments-head .ch-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .comments-head .ch-count {
+      font-size: 13px;
+      color: #aaa;
+    }
+    .comments-head .ch-sort {
+      margin-left: auto;
+      font-size: 12px;
+      color: #aaa;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ---------- comment list ---------- */
+    .list {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      padding: 4px 14px 6px;
+    }
+
+    .thread { margin-bottom: 12px; }
+
+    .comment {
+      display: flex;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    .comment.show { animation: rise 0.5s ease forwards; }
+    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+    .reply { margin-top: 9px; margin-left: 34px; }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .reply .avatar { width: 22px; height: 22px; font-size: 10px; }
+
+    .a1 { background: #b5562f; }
+    .a2 { background: #356859; }
+    .a3 { background: #4a5e8c; }
+    .a4 { background: #7a4a78; }
+    .a5 { background: #88632c; }
+    .a6 { background: #555; }
+    .a7 { background: #9e3b50; }
+    .a8 { background: #2f6d72; }
+    .a9 { background: #6b5a8e; }
+    .me { background: #2e7d32; }
+
+    .c-body { min-width: 0; flex: 1; }
+    .c-head {
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 1px;
+    }
+    .c-head .name { color: #f1f1f1; font-weight: 500; }
+    .c-text {
+      font-size: 13.5px;
+      line-height: 1.4;
+      color: #f1f1f1;
+    }
+    .reply .c-text { font-size: 13px; color: #e3e3e3; }
+
+    .c-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 4px;
+    }
+    .act {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #aaa;
+      font-size: 12px;
+    }
+    .act svg { width: 15px; height: 15px; fill: none; stroke: #aaa; stroke-width: 1.8; }
+
+    /* ---------- join bar (S10 -> S10.5 trigger) ---------- */
+    .join-bar {
+      flex-shrink: 0;
+      border-top: 1px solid #272727;
+      padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+      background: #0f0f0f;
+      cursor: pointer;
+      opacity: 0;
+      animation: rise 0.6s ease 0.4s forwards;
+    }
+    .join-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .join-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #2e7d32; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 600; color: #fff;
+    }
+    .join-field {
+      flex: 1;
+      border-bottom: 1px solid #3a3a3a;
+      padding: 6px 2px;
+      font-size: 13px;
+      color: #aaa;
+    }
+    .join-prompt {
+      text-align: center;
+      margin-top: 9px;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      color: #fff;
+      text-transform: uppercase;
+    }
+    .join-prompt .down {
+      display: inline-block;
+      animation: bob 1.6s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+
+    /* ---------- S10.5 question ---------- */
+    .ask {
+      position: fixed;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      height: 100dvh;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: env(safe-area-inset-top) 18px calc(20px + env(safe-area-inset-bottom));
+      justify-content: center;
+    }
+    .ask.active { display: flex; }
+
+    .ask-q {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: 22px;
+      opacity: 0;
+      animation: rise 0.5s ease 0.05s forwards;
+    }
+    .opt {
+      border: 1px solid #303030;
+      border-radius: 12px;
+      padding: 16px 16px;
+      margin-bottom: 12px;
+      font-size: 15px;
+      line-height: 1.35;
+      color: #f1f1f1;
+      background: #181818;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+    }
+    .opt.show { animation: rise 0.5s ease forwards; }
+    .opt:active { transform: scale(0.985); }
+    .opt .opt-label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: #888;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+    .opt.picked {
+      border-color: #3ea6ff;
+      background: #11202c;
+    }
+    .opt.dim { opacity: 0.25; }
+
+    /* ---------- S10.5 reply chain ---------- */
+    .chain {
+      position: fixed;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      height: 100dvh;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: env(safe-area-inset-top) 16px calc(20px + env(safe-area-inset-bottom));
+      justify-content: center;
+    }
+    .chain.active { display: flex; }
+
+    .chain-head {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #777;
+      margin-bottom: 14px;
+    }
+    .chain-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    .chain-row.show { animation: rise 0.45s ease forwards; }
+    .chain-row.mine .c-text { color: #fff; font-weight: 500; font-size: 14.5px; }
+    .chain-row.replyline { margin-left: 30px; }
+  </style>
+</head>
+<body>
+
+  <!-- ============ STATE S10 — OBSERVATION ============ -->
+  <div class="screen" id="s10">
+    <div class="now-playing">
+      <div class="np-thumb"></div>
+      <div class="np-meta">
+        <div class="np-title">BREAKING: The Dalton Killings — Everything We Know So Far</div>
+        <div class="np-sub">1,204,883 watching · LIVE</div>
+      </div>
+    </div>
+
+    <div class="comments-head">
+      <span class="ch-title">Comments</span>
+      <span class="ch-count">18K</span>
+      <span class="ch-sort">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><line x1="4" y1="7" x2="20" y2="7"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="17" x2="14" y2="17"/></svg>
+        Top
+      </span>
+    </div>
+
+    <div class="list" id="list">
+
+      <!-- Attitude 1: the killings were justified -->
+      <div class="thread">
+        <div class="comment" data-step>
+          <div class="avatar a1">R</div>
+          <div class="c-body">
+            <div class="c-head"><span class="name">@reymark_tv</span> · 6m</div>
+            <div class="c-text">Whoever did it, they did the country a favor.</div>
+            <div class="c-actions">
+              <span class="act"><svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0l4-7a2 2 0 0 1 2-1c1 0 2 .8 2 2v3h4a2 2 0 0 1 2 2.3l-1.2 6A2 2 0 0 1 17.8 20H7"/></svg>4.2K</span>
+              <span class="act">Reply</span>
+            </div>
+          </div>
+        </div>
+        <div class="comment reply" data-step>
+          <div class="avatar a2">L</div>
+          <div class="c-body">
+            <div class="c-head"><span class="name">@len.navarro</span> · 5m</div>
+            <div class="c-text">The Daltons stole from this nation for decades.</div>
+            <div class="c-actions"><span class="act"><svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0l4-7a2 2 0 0 1 2-1c1 0 2 .8 2 2v3h4a2 2 0 0 1 2 2.3l-1.2 6A2 2 0 0 1 17.8 20H7"/></svg>1.1K</span></div>
+          </div>
+        </div>
+        <div class="comment reply" data-step>
+          <div class="avatar a3">F</div>
+          <div class="c-body">
+            <div class="c-head"><span class="name">@fr.aquino</span> · 5m</div>
+            <div class="c-text">So we're applauding executions now?</div>
+            <div class="c-actions"><span class="act"><svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0l4-7a2 2 0 0 1 2-1c1 0 2 .8 2 2v3h4a2 2 0 0 1 2 2.3l-1.2 6A2 2 0 0 1 17.8 20H7"/></svg>986</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Attitude 2: political murder -->
+      <div class="thread">
+        <div class="comment" data-step>
+          <div class="avatar a4">J</div>
+          <div class="c-body">
+            <div class="c-head"><span class="name">@joanne.delrosario</span> · 4m</div>
+            <div class="c-text">This is what political assassination looks like.</div>
+            <div class="c-actions">
+              <span class="act"><svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0l4-7a2 2 0 0 1 2-1c1 0 2 .8 2 2v3h4a2 2 0 0 1 2 2.3l-1.2 6A2 2 0 0 1 17.8 20H7"/></svg>3.8K</span>
+              <span class="act">Reply</span>
+            </div>
+          </div>
+        </div>
+        <div class="comment reply" data-step>
+          <div class="avatar a5">M</div>
+          <div class="c-body">
+            <div class="c-head"><span class="name">@mark.tolentino</span> · 4m</div>
+            <div class="c-text">If a president can kill rivals, nobody is safe.</div>
+            <div class="c-actions"><span class="act"><svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0l4-7a2 2 0 0 1 2-1c1 0 2 .8 2 2v3h4a2 2 0 0 1 2 2.3l-1.2 6A2 2 0 0 1 17.8 20H7"/></svg>2.0K</span></div>
+          </div>
+        </div>
+        <div class="comment reply" data-step>
+          <div class="avatar a6">K</div>
+          <div class="c-body">
+            <div class="c-head"><span class="name">@kuyaboy_mnl</span> · 3m</div>
+            <div class="c-text">Or stop guessing motives with zero proof.</div>
+            <div class="c-actions"><span class="act"><svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0l4-7a2 2 0 0 1 2-1c1 0 2 .8 2 2v3h4a2 2 0 0 1 2 2.3l-1.2 6A2 2 0 0 1 17.8 20H7"/></svg>742</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Attitude 3: elite infighting -->
+      <div class="thread">
+        <div class="comment" data-step>
+          <div class="avatar a7">B</div>
+          <div class="c-body">
+            <div class="c-head"><span class="name">@itsbongg</span> · 2m</div>
+            <div class="c-text">Rich people killing rich people.</div>
+            <div class="c-actions">
+              <span class="act"><svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0l4-7a2 2 0 0 1 2-1c1 0 2 .8 2 2v3h4a2 2 0 0 1 2 2.3l-1.2 6A2 2 0 0 1 17.8 20H7"/></svg>5.1K</span>
+              <span class="act">Reply</span>
+            </div>
+          </div>
+        </div>
+        <div class="comment reply" data-step>
+          <div class="avatar a8">S</div>
+          <div class="c-body">
+            <div class="c-head"><span class="name">@sari.store.ph</span> · 2m</div>
+            <div class="c-text">Wake me up when it affects my rent.</div>
+            <div class="c-actions"><span class="act"><svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0l4-7a2 2 0 0 1 2-1c1 0 2 .8 2 2v3h4a2 2 0 0 1 2 2.3l-1.2 6A2 2 0 0 1 17.8 20H7"/></svg>3.3K</span></div>
+          </div>
+        </div>
+        <div class="comment reply" data-step>
+          <div class="avatar a9">T</div>
+          <div class="c-body">
+            <div class="c-head"><span class="name">@teacher.mae</span> · 1m</div>
+            <div class="c-text">Forty-seven people died. That's not "rich people."</div>
+            <div class="c-actions"><span class="act"><svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0l4-7a2 2 0 0 1 2-1c1 0 2 .8 2 2v3h4a2 2 0 0 1 2 2.3l-1.2 6A2 2 0 0 1 17.8 20H7"/></svg>1.4K</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="join-bar" id="joinBar">
+      <div class="join-inner">
+        <div class="join-avatar">Y</div>
+        <div class="join-field">Add a comment…</div>
+      </div>
+      <div class="join-prompt"><span class="down">↓</span> Join the discussion</div>
+    </div>
+  </div>
+
+  <!-- ============ STATE S10.5 — QUESTION ============ -->
+  <div class="ask" id="ask">
+    <div class="ask-q">Which comment sounds closest to your view?</div>
+    <div class="opt" data-choice="A">
+      <span class="opt-label">Option A</span>
+      "The Daltons got what they deserved."
+    </div>
+    <div class="opt" data-choice="B">
+      <span class="opt-label">Option B</span>
+      "This is political murder."
+    </div>
+    <div class="opt" data-choice="C">
+      <span class="opt-label">Option C</span>
+      "This is just another elite power struggle."
+    </div>
+  </div>
+
+  <!-- ============ STATE S10.5 — REPLY CHAIN ============ -->
+  <div class="chain" id="chain">
+    <div class="chain-head">You replied</div>
+    <div id="chainRows"></div>
+  </div>
+
+  <script>
+    (function () {
+      var THUMB = '<svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0l4-7a2 2 0 0 1 2-1c1 0 2 .8 2 2v3h4a2 2 0 0 1 2 2.3l-1.2 6A2 2 0 0 1 17.8 20H7"/></svg>';
+
+      // ----- selected-choice content for S10.5 reply chains -----
+      var CHAINS = {
+        A: {
+          mine: 'The Daltons got what they deserved.',
+          replies: [
+            { av: 'a1', i: 'D', name: '@danny_reyes', t: 'They stole billions.' },
+            { av: 'a3', i: 'P', name: '@paolo.m', t: 'So murder is justice now?' },
+            { av: 'a5', i: 'V', name: '@vince_ph', t: 'About time somebody paid.' },
+            { av: 'a9', i: 'G', name: '@grace.ann', t: 'Forty-seven people died.' }
+          ]
+        },
+        B: {
+          mine: 'This is political murder.',
+          replies: [
+            { av: 'a4', i: 'J', name: '@jaymar', t: "Today it's Dalton." },
+            { av: 'a7', i: 'C', name: '@carla_v', t: "Tomorrow it's everyone else." },
+            { av: 'a6', i: 'N', name: '@noel.s', t: 'You still trust politicians?' },
+            { av: 'a2', i: 'R', name: '@rico_mnl', t: 'Do you even know who did it?' }
+          ]
+        },
+        C: {
+          mine: 'This is just another elite power struggle.',
+          replies: [
+            { av: 'a8', i: 'M', name: '@migs04', t: "That's why nothing changes." },
+            { av: 'a5', i: 'A', name: '@ana.cruz', t: 'Easy to say from a distance.' },
+            { av: 'a7', i: 'B', name: '@bem_ph', t: "They're all corrupt." },
+            { av: 'a3', i: 'L', name: '@leo.t', t: 'And we\u2019re supposed to care?' }
+          ]
+        }
+      };
+
+      var s10 = document.getElementById('s10');
+      var ask = document.getElementById('ask');
+      var chain = document.getElementById('chain');
+      var joinBar = document.getElementById('joinBar');
+
+      var locked = false;
+
+      // ----- S10: reveal comments one by one -----
+      var steps = document.querySelectorAll('#list [data-step]');
+      steps.forEach(function (el, idx) {
+        setTimeout(function () { el.classList.add('show'); }, 300 + idx * 360);
+      });
+
+      // ----- S10 -> S10.5 -----
+      function openQuestion() {
+        if (locked) return;
+        locked = true;
+        s10.style.display = 'none';
+        ask.classList.add('active');
+        var opts = ask.querySelectorAll('.opt');
+        opts.forEach(function (o, i) {
+          setTimeout(function () { o.classList.add('show'); }, 120 + i * 130);
+        });
+      }
+      joinBar.addEventListener('click', openQuestion);
+
+      // ----- S10.5: pick an option -----
+      var picked = false;
+      ask.querySelectorAll('.opt').forEach(function (opt) {
+        opt.addEventListener('click', function () {
+          if (picked) return;
+          picked = true;
+          var choice = opt.getAttribute('data-choice');
+
+          // store selection only — no branching
+          try { localStorage.setItem('rainshot_ep2_s10_choice', choice); } catch (e) {}
+
+          ask.querySelectorAll('.opt').forEach(function (o) {
+            if (o === opt) o.classList.add('picked');
+            else o.classList.add('dim');
+          });
+
+          setTimeout(function () { showChain(choice); }, 520);
+        });
+      });
+
+      // ----- S10.5: reply chain, then auto-advance to S11 -----
+      function showChain(choice) {
+        var data = CHAINS[choice];
+        var rows = document.getElementById('chainRows');
+
+        var html = '<div class="chain-row mine">' +
+            '<div class="avatar me">Y</div>' +
+            '<div class="c-body">' +
+              '<div class="c-head"><span class="name">You</span> · now</div>' +
+              '<div class="c-text">' + data.mine + '</div>' +
+            '</div></div>';
+
+        data.replies.forEach(function (r) {
+          html += '<div class="chain-row replyline">' +
+              '<div class="avatar ' + r.av + '">' + r.i + '</div>' +
+              '<div class="c-body">' +
+                '<div class="c-head"><span class="name">' + r.name + '</span> · now</div>' +
+                '<div class="c-text">' + r.t + '</div>' +
+                '<div class="c-actions"><span class="act">' + THUMB + '</span><span class="act">Reply</span></div>' +
+              '</div></div>';
+        });
+
+        rows.innerHTML = html;
+        ask.classList.remove('active');
+        chain.classList.add('active');
+
+        var chainRows = chain.querySelectorAll('.chain-row');
+        chainRows.forEach(function (row, i) {
+          setTimeout(function () { row.classList.add('show'); }, 80 + i * 360);
+        });
+
+        // auto advance after the chain has landed (2.6s window)
+        var total = 80 + chainRows.length * 360;
+        setTimeout(function () { advance(choice); }, total + 2600);
+      }
+
+      function advance(choice) {
+        // continue to S11 — notify parent shell if embedded
+        try {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'EP2_S10_DONE', choice: choice }, '*');
+          }
+        } catch (e) {}
+      }
+    })();
+  </script>
+</body>
+</html>
